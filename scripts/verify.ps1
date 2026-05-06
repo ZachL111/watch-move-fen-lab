@@ -61,3 +61,9 @@ foreach ($pathPattern in $knownPaths) {
 mix test
 
 powershell -NoProfile -ExecutionPolicy Bypass -File scripts/check-watch-move-fen-detail.ps1
+
+powershell -NoProfile -ExecutionPolicy Bypass -File scripts/check-watch-move-fen-properties.ps1
+if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+
+powershell -NoProfile -ExecutionPolicy Bypass -File scripts/check-watch-move-fen-golden.ps1
+if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
