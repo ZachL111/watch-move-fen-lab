@@ -1,0 +1,73 @@
+{
+  "repo": "watch-move-fen-lab",
+  "language": "Elixir",
+  "category": "Chess and game engines",
+  "goal": "Build an Elixir toolkit that studies fen behavior through negative fixtures, with human-readable error snapshots and no network dependency.",
+  "review_model": {
+    "terms": [
+      "position pressure",
+      "move ordering",
+      "search width",
+      "endgame risk"
+    ],
+    "lanes": [
+      "ship",
+      "watch",
+      "hold"
+    ],
+    "score": "signal * 2 + slack + confidence - drag * 3",
+    "purpose": "surface the domain-specific cases that need the most careful review"
+  },
+  "cases": [
+    {
+      "name": "baseline",
+      "focus": "position pressure",
+      "signal": 58,
+      "slack": 22,
+      "drag": 14,
+      "confidence": 57,
+      "score": 153,
+      "lane": "ship"
+    },
+    {
+      "name": "stress",
+      "focus": "move ordering",
+      "signal": 60,
+      "slack": 31,
+      "drag": 32,
+      "confidence": 60,
+      "score": 115,
+      "lane": "watch"
+    },
+    {
+      "name": "edge",
+      "focus": "search width",
+      "signal": 73,
+      "slack": 20,
+      "drag": 24,
+      "confidence": 86,
+      "score": 180,
+      "lane": "ship"
+    },
+    {
+      "name": "recovery",
+      "focus": "endgame risk",
+      "signal": 78,
+      "slack": 35,
+      "drag": 23,
+      "confidence": 67,
+      "score": 189,
+      "lane": "ship"
+    },
+    {
+      "name": "stale",
+      "focus": "position pressure",
+      "signal": 86,
+      "slack": 53,
+      "drag": 12,
+      "confidence": 75,
+      "score": 264,
+      "lane": "ship"
+    }
+  ]
+}
