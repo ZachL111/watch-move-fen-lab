@@ -1,43 +1,68 @@
 # watch-move-fen-lab
 
-watch-move-fen-lab is a Elixir project for chess and game engines. It focuses on this technical goal: Build an Elixir toolkit that studies fen behavior through negative fixtures, with human-readable error snapshots and no network dependency.
+`watch-move-fen-lab` is a focused Elixir codebase around build an Elixir toolkit that studies fen behavior through negative fixtures, with human-readable error snapshots and no network dependency. It is meant to be easy to inspect, run, and extend without a hosted service.
 
-## Why it exists
+## Watch Move Fen Lab Walkthrough
 
-Small engineering tools are easiest to trust when their rules are explicit, testable, and cheap to run locally. This repository packages a focused model with fixture data and a local verification path so behavior can be reviewed without external services.
+I would read the project from the outside in: command, fixture, model, then roadmap. That keeps the chess and game engines idea grounded in files that can be checked locally.
 
-## Features
+## Reason For The Project
 
-- Deterministic policy scoring over fixture scenarios.
-- Clear accept or review decisions based on a documented threshold.
-- A command-line or local test path for quick validation.
-- Golden fixture data for repeatable checks.
-- Minimal dependencies and a compact project layout.
+This project keeps the domain idea close to the tests. That makes it useful as a reference implementation, a small experiment, or a starting point for a more specialized tool.
 
-## Architecture Notes
+## Where Things Live
 
-The core module exposes a small scoring API. Inputs are simple numeric signals: demand, capacity, latency, risk, and weight. The score uses a threshold of 163, risk penalty 7, latency penalty 2, and weight bonus 4. Tests exercise the public API against the fixture cases in `fixtures/cases.csv`.
+- `lib`: library code
+- `test`: language test directory
+- `fixtures`: compact golden scenarios
+- `examples`: expanded scenario set
+- `metadata`: project constants and verification metadata
+- `docs`: operations and extension notes
+- `scripts`: local verification and audit commands
 
-## Setup
+## Capabilities
 
-Install the Elixir toolchain and run commands from the repository root.
+- Includes extended examples for turn flow, including `recovery` and `degraded`.
+- Documents search limits tradeoffs in `docs/operations.md`.
+- Runs locally with a single verification command and no external credentials.
+- Stores project constants and verification metadata in `metadata/project.json`.
+- Adds a repository audit script that checks structure before running the language verifier.
 
-## Usage
+## How It Is Put Together
+
+The core is a scoring model over demand, capacity, latency, risk, and weight. That keeps position state, move ranking, and turn flow in one explicit decision path. The threshold is 163, with risk penalty 7, latency penalty 2, and weight bonus 4. The Elixir project uses Mix and ExUnit with clear data maps for each scenario.
+
+## Getting It Running
+
+The only required setup is the local Elixir toolchain. After cloning, stay in the repo root so fixture paths resolve correctly.
+
+## Data Notes
+
+`examples/extended_cases.csv` adds six named cases. I kept the names plain so failures are easy to read in a terminal: baseline, pressure, surge, degraded, recovery, and boundary.
+
+## Command Examples
 
 ```powershell
 powershell -NoProfile -ExecutionPolicy Bypass -File scripts/verify.ps1
 ```
 
-The verification script builds or runs the project and checks the fixture decisions.
+This runs the language-level build or test path against the compact fixture set.
 
-## Tests
+## Check The Work
 
 ```powershell
-powershell -NoProfile -ExecutionPolicy Bypass -File scripts/verify.ps1
+powershell -NoProfile -ExecutionPolicy Bypass -File scripts/audit.ps1
 ```
 
-## Limitations And Roadmap
+The audit command checks repository structure and README constraints before it delegates to the verifier.
 
-- The fixture set is intentionally small so it can be audited by hand.
-- Future work could add richer domain-specific input adapters.
-- The model is a local demonstration and does not claim production use.
+## Possible Extensions
+
+- Add a short report command that prints the score breakdown for a single scenario.
+- Add malformed input fixtures so the failure path is as visible as the happy path.
+- Split the scoring constants into a typed configuration object and validate it before use.
+- Add one more chess and game engines fixture that focuses on a malformed or borderline input.
+
+## Tradeoffs
+
+The examples cover useful edges, not every edge. A larger version would add malformed-input tests, richer reports, and deeper domain parsers.
